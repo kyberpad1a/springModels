@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Добавление нового сотрудника</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<form th:action="${'/employee/add'}" method="post">
+  <input type="text" name="employeeInitials" placeholder="Введите ФИО сотрудника">
+  <input type="text" name="employeeWeight" placeholder="Введите вес">
+  <input type="number" name="employeeAge" placeholder="Введите возраст">
+  <input type="date" name="employeeDateOfBirth" placeholder="Введите дату рождения">
+  <input type="checkbox" name="employeeStatus" placeholder="Работает?">
+  <br>
+  <button type="submit">Добавить сотрудника</button>
+</form>
+</body>
+</html>

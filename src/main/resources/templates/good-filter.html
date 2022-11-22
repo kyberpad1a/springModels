@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Title</title>
+</head>
+<body>
+<h2>Точный поиск</h2>
+<form method="post" th:action="${'/good/filter/result'}">
+  <input type="text" name="goodName">
+  <button type="submit">Найти</button>
+  <div th:each="el : ${result}">
+    <h3 th:text="${el.goodName}"></h3>
+    <p th:text="${el.goodPrice}"></p>
+
+  </div>
+</form>
+</body>
+</html>

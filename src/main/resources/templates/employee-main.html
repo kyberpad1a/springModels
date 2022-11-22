@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+<h1>Все сотрудники</h1>
+
+<a href="/employee/filter">Поиск сотрудника</a>
+<a href="/employee/add">Добавить сотрудника</a>
+<a href="/good">Товары</a>
+<div th:each="el : ${employees}">
+    <h3 th:text="${el.employeeInitials}"></h3>
+    <p th:text="${el.employeeAge}"></p>
+    <p th:text="${el.employeeDateOfBirth}"></p>
+</div>
+
+</body>
+</html>

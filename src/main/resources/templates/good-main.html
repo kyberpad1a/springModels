@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+<h1>Все Товары</h1>
+
+<a href="/good/filter">Поиск товара</a>
+<a href="/good/add">Добавить товар</a>
+<a href="/">Сотрудники</a>
+<div th:each="el : ${goods}">
+    <h3 th:text="${el.goodName}"></h3>
+    <p th:text="${el.goodPrice}"></p>
+    <p th:text="${el.goodSupplyDate}"></p>
+</div>
+
+</body>
+</html>
