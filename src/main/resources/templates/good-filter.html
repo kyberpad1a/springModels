@@ -5,6 +5,7 @@
   <title>Title</title>
 </head>
 <body>
+<div th:insert="blocks/header"></div>
 <h2>Точный поиск</h2>
 <form method="post" th:action="${'/good/filter/result'}">
   <input type="text" name="goodName">

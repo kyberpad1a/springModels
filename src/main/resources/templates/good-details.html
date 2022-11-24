@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:insert="blocks/header"></div>
+<div th:each="el : ${good}">
+  <h3>Подробнее про товар: </h3> <h3 th:text="${el.goodName}"></h3>
+  <p th:text="${el.goodPrice}"></p>
+  <p th:text="${el.goodQuantity}"></p>
+  <p th:text="${el.goodSupplyDate}"></p>
+  <p th:text="${el.goodDefect}"></p>
+  <a th:href="'/good/' + ${el.ID_Good} + '/edit'">Редактировать</a>
+  <form th:action="'/good/' + ${el.ID_Good} + '/remove'" method="post">
+    <button type="submit" class="btn btn-del">Удалить</button>
+  </form>
+</div>
+</body>

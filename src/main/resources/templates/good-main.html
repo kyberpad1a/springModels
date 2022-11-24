@@ -3,18 +3,42 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Title</title>
+
+    <link th:href="@{/css/list.css}" rel="stylesheet" />
 </head>
-<body>
-<h1>Все Товары</h1>
+<body class="body">
 
-<a href="/good/filter">Поиск товара</a>
-<a href="/good/add">Добавить товар</a>
-<a href="/">Сотрудники</a>
-<div th:each="el : ${goods}">
-    <h3 th:text="${el.goodName}"></h3>
-    <p th:text="${el.goodPrice}"></p>
-    <p th:text="${el.goodSupplyDate}"></p>
+<div th:insert="blocks/header"></div>
+
+
+<div class="container">
+    <h1 class="center">Товары</h1>
+    <div th:each="el : ${goods}">
+    <article class="episode">
+
+        <div class="episode__number" th:text="${el.ID_Good}"></div>
+        <div class="episode__content">
+            <div class="title" th:text="${el.goodName}"></div>
+            <div class="story">
+                <table>
+                    <tr>
+
+                        <td>><a>Цена:</a>
+                            <a th:text="${el.goodPrice}"></a>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td>><a>Дата поставки:</a> <a th:text="${el.goodSupplyDate}"></a></td>
+                    </tr>
+                </table>
+                <a th:href="'/good/' + ${el.ID_Good}">Подробнее</a>
+            </div>
+        </div>
+
+    </article>
+    </div>
+
 </div>
-
 </body>
 </html>

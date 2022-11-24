@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:insert="blocks/header"></div>
+<div th:each="el : ${employee}">
+  <form method="post">
+    <input type="text" th:value="${el.employeeInitials}" name="employeeInitials" placeholder="ФИО">
+    <input type="text" th:value="${el.employeeWeight}" name="employeeWeight" placeholder="Вес">
+    <input type="number" th:value="${el.employeeAge}" name="employeeAge" placeholder="Возраст">
+    <input type="date" th:value="${el.employeeDateOfBirth}" name="employeeDateOfBirth" placeholder="Дата рождения">
+    <input type="checkbox" th:checked="${el.employeeStatus}" name="employeeStatus" placeholder="Работает?">
+    <br>
+    <button type="submit">Сохранить изменения</button>
+  </form>
+</div>
+</body>
+</html>

@@ -5,6 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+<div th:insert="blocks/header"></div>
 <form th:action="${'/employee/add'}" method="post">
   <input type="text" name="employeeInitials" placeholder="Введите ФИО сотрудника">
   <input type="text" name="employeeWeight" placeholder="Введите вес">

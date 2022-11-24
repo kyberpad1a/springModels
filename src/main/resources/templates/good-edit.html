@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:insert="blocks/header"></div>
+<div th:each="el : ${good}">
+  <form method="post">
+    <input type="text" th:value="${el.goodName}" name="goodName" placeholder="Название товара">
+    <input type="text" th:value="${el.goodPrice}" name="goodPrice" placeholder="Цена">
+    <input type="number" th:value="${el.goodQuantity}" name="goodQuantity" placeholder="Количество">
+    <input type="date" th:value="${el.goodSupplyDate}" name="goodSupplyDate" placeholder="Дата поставки">
+    <input type="checkbox" th:checked="${el.goodDefect}" name="goodDefect" placeholder="Дефекты?">
+    <br>
+    <button type="submit">Сохранить изменения</button>
+  </form>
+</div>
+</body>
+</html>

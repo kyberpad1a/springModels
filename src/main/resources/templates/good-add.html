@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+<div th:insert="blocks/header"></div>
 <form th:action="${'/good/add'}" method="post">
     <input type="text" name="goodName" placeholder="Введите название товара">
     <input type="text" name="goodPrice" placeholder="Введите цену">

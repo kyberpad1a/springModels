@@ -3,17 +3,43 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Title</title>
+    <link th:href="@{/css/list.css}" rel="stylesheet" />
 </head>
-<body>
-<h1>Все сотрудники</h1>
+<body class="body">
+<div th:insert="blocks/header"></div>
 
-<a href="/employee/filter">Поиск сотрудника</a>
-<a href="/employee/add">Добавить сотрудника</a>
-<a href="/good">Товары</a>
-<div th:each="el : ${employees}">
-    <h3 th:text="${el.employeeInitials}"></h3>
-    <p th:text="${el.employeeAge}"></p>
-    <p th:text="${el.employeeDateOfBirth}"></p>
+
+
+<div class="container">
+    <h1 class="center">Сотрудники</h1>
+    <div th:each="el : ${employees}">
+        <article class="episode">
+
+            <div class="episode__number" th:text="${el.ID_Employee}"></div>
+            <div class="episode__content">
+                <div class="title" th:text="${el.employeeInitials}"></div>
+                <div class="story">
+                    <table>
+                        <tr>
+
+                            <td>><a>Вес:</a>
+                                <a th:text="${el.employeeWeight}"></a>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>><a>Дата рождения:</a> <a th:text="${el.employeeDateOfBirth}"></a></td>
+                        </tr>
+                    </table>
+
+
+                    <a th:href="'/employee/' + ${el.ID_Employee}">Подробнее</a>
+                </div>
+            </div>
+
+        </article>
+    </div>
+
 </div>
 
 </body>
