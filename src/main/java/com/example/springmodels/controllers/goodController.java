@@ -6,11 +6,10 @@ import com.example.springmodels.repos.goodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +29,18 @@ public class goodController {
     }
 
     @GetMapping("/good/add")
-    public String goodAddPage(Model model)
+    public String goodAddPage(@ModelAttribute("good") modelGood modelGood)
     {
         return "good-add";
     }
 
     @PostMapping("/good/add")
-    public String goodAdd(@RequestParam String goodName,
-                              @RequestParam double goodPrice,
-                              @RequestParam int goodQuantity,
-                              @RequestParam Date goodSupplyDate,
-                              @RequestParam(defaultValue = "false") boolean goodDefect, Model model)
+    public String goodAdd(@ModelAttribute("good") @Valid modelGood modelGood, BindingResult bindingResult)
     {
-        modelGood good = new modelGood(goodName, goodPrice, goodQuantity, goodSupplyDate, goodDefect);
-        goodRepository.save(good);
+
+        if (bindingResult.hasErrors())
+            return "good-add";
+        goodRepository.save(modelGood);
         return "redirect:/good";
     }
 
@@ -78,31 +75,24 @@ public class goodController {
     @GetMapping("/good/{ID_Good}/edit")
     public String goodEdit(@PathVariable("ID_Good") long ID_Good, Model model)
     {
-        if(!goodRepository.existsById(ID_Good)){
+        /*if(!goodRepository.existsById(ID_Good)){
             return "redirect:/good";
         }
         Optional<modelGood> good = goodRepository.findById(ID_Good);
         ArrayList<modelGood> res = new ArrayList<>();
-        good.ifPresent(res::add);
-        model.addAttribute("good",res);
+        good.ifPresent(res::add);*/
+        modelGood res = goodRepository.findById(ID_Good).orElseThrow();
+        model.addAttribute("modelGood",res);
         return "good-edit";
     }
 
     @PostMapping("/good/{ID_Good}/edit")
     public String goodUpdate(@PathVariable("ID_Good") long ID_Good,
-                             @RequestParam String goodName,
-                             @RequestParam double goodPrice,
-                             @RequestParam int goodQuantity,
-                             @RequestParam Date goodSupplyDate,
-                             @RequestParam(defaultValue = "false") boolean goodDefect, Model model)
+                             @Valid modelGood modelGood, BindingResult bindingResult)
     {
-        modelGood good = goodRepository.findById(ID_Good).orElseThrow();
-        good.setGoodName(goodName);
-        good.setGoodPrice(goodPrice);
-        good.setGoodQuantity(goodQuantity);
-        good.setGoodSupplyDate(goodSupplyDate);
-        good.setGoodDefect(goodDefect);
-        goodRepository.save(good);
+        if (bindingResult.hasErrors())
+            return "good-edit";
+        goodRepository.save(modelGood);
         return "redirect:/good";
     }
     @PostMapping("good/{ID_Good}/remove")

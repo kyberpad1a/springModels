@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.*;
 import java.sql.Date;
 
 @Entity
@@ -71,9 +72,18 @@ public class modelGood {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ID_Good;
+    @NotBlank(message = "Поле не может быть пустым")
+    @NotNull(message = "не может быть нулевым")
     private String goodName;
+    @NotNull(message = "не может быть нулевым")
+    @Positive(message = "Цена не может быть отрицательной")
+    @Digits(fraction = 2, integer = 5, message = "Количество символов слева от запятой не может превышать 5, справа - 2")
     private  double goodPrice;
+    @Max(value = 10000, message = "Количество не может быть больше 10000")
+    @PositiveOrZero(message = "Количество не может быть меньше нуля")
     private int goodQuantity;
+    @NotNull(message = "не может быть нулевым")
+    //@PastOrPresent(message = "Дата должна быть раньше или равна текущей")
     private Date goodSupplyDate;
     private boolean goodDefect;
 

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.*;
 import java.sql.Date;
 
 @Entity
@@ -21,9 +22,17 @@ public class modelEmployee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ID_Employee;
+    @NotBlank(message = "Поле не может быть пустым")
+    @NotNull
     private String employeeInitials;
+    @NotNull
+    @Positive(message = "Вес не может быть отрицательным")
+    @Digits(integer = 3, fraction = 1, message = "Количество символов слева от запятой не может превышать 3, справа - 1")
     private double employeeWeight;
+    @Positive(message = "Возраст не может быть отрицательным")
+    @Max(value = 100, message = "Возраст не может быть больше 100")
     private int employeeAge;
+    //@Past(message = "Дата рождения должна быть раньше текущей даты")
     private Date employeeDateOfBirth;
     private boolean employeeStatus;
 

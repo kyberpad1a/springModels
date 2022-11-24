@@ -6,11 +6,15 @@
 </head>
 <body>
 <div th:insert="blocks/header"></div>
-<form th:action="${'/employee/add'}" method="post">
-  <input type="text" name="employeeInitials" placeholder="Введите ФИО сотрудника">
-  <input type="text" name="employeeWeight" placeholder="Введите вес">
-  <input type="number" name="employeeAge" placeholder="Введите возраст">
-  <input type="date" name="employeeDateOfBirth" placeholder="Введите дату рождения">
+<form th:action="${'/employee/add'}" method="post" th:object="${employee}" >
+  <input type="text" th:field="*{employeeInitials}" name="employeeInitials" placeholder="Введите ФИО сотрудника">
+  <div style="color: red" th:if="${#fields.hasErrors('employeeInitials')}" th:errors="*{employeeInitials}"></div>
+  <input type="text" th:field="*{employeeWeight}" name="employeeWeight" placeholder="Введите вес">
+  <div style="color: red" th:if="${#fields.hasErrors('employeeWeight')}" th:errors="*{employeeWeight}"></div>
+  <input type="number" th:field="*{employeeAge}" name="employeeAge" placeholder="Введите возраст">
+  <div style="color: red" th:if="${#fields.hasErrors('employeeAge')}" th:errors="*{employeeAge}"></div>
+  <input type="date" th:field="*{employeeDateOfBirth}" name="employeeDateOfBirth" placeholder="Введите дату рождения">
+  <div style="color: red" th:if="${#fields.hasErrors('employeeDateOfBirth')}" th:errors="*{employeeDateOfBirth}"></div>
   <input type="checkbox" name="employeeStatus" placeholder="Работает?">
   <br>
   <button type="submit">Добавить сотрудника</button>

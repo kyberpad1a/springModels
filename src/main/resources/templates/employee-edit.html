@@ -6,13 +6,17 @@
 </head>
 <body>
 <div th:insert="blocks/header"></div>
-<div th:each="el : ${employee}">
-  <form method="post">
-    <input type="text" th:value="${el.employeeInitials}" name="employeeInitials" placeholder="ФИО">
-    <input type="text" th:value="${el.employeeWeight}" name="employeeWeight" placeholder="Вес">
-    <input type="number" th:value="${el.employeeAge}" name="employeeAge" placeholder="Возраст">
-    <input type="date" th:value="${el.employeeDateOfBirth}" name="employeeDateOfBirth" placeholder="Дата рождения">
-    <input type="checkbox" th:checked="${el.employeeStatus}" name="employeeStatus" placeholder="Работает?">
+<div th:each="el : ${modelEmployee}">
+  <form method="post" th:object="${modelEmployee}" >
+    <input type="text" th:field="*{employeeInitials}" name="employeeInitials" placeholder="Введите ФИО сотрудника" th:value="${modelEmployee.employeeInitials}">
+    <div style="color: red" th:if="${#fields.hasErrors('employeeInitials')}" th:errors="*{employeeInitials}"></div>
+    <input type="text" th:field="*{employeeWeight}" name="employeeWeight" placeholder="Введите вес" th:value="${modelEmployee.employeeWeight}">
+    <div style="color: red" th:if="${#fields.hasErrors('employeeWeight')}" th:errors="*{employeeWeight}"></div>
+    <input type="number" th:field="*{employeeAge}" name="employeeAge" th:value="${modelEmployee.employeeAge}" placeholder="Введите возраст">
+    <div style="color: red" th:if="${#fields.hasErrors('employeeAge')}" th:errors="*{employeeAge}"></div>
+    <input type="date" th:field="*{employeeDateOfBirth}" name="employeeDateOfBirth" th:value="${modelEmployee.employeeDateOfBirth}" placeholder="Введите дату рождения">
+    <div style="color: red" th:if="${#fields.hasErrors('employeeDateOfBirth')}" th:errors="*{employeeDateOfBirth}"></div>
+    <input type="checkbox" th:checked="${modelEmployee.employeeStatus}" name="employeeStatus" placeholder="Работает?">
     <br>
     <button type="submit">Сохранить изменения</button>
   </form>

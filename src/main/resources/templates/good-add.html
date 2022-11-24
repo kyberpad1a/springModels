@@ -6,11 +6,15 @@
 </head>
 <body>
 <div th:insert="blocks/header"></div>
-<form th:action="${'/good/add'}" method="post">
-    <input type="text" name="goodName" placeholder="Введите название товара">
-    <input type="text" name="goodPrice" placeholder="Введите цену">
-    <input type="number" name="goodQuantity" placeholder="Введите количество">
-    <input type="date" name="goodSupplyDate" placeholder="Введите дату поставки">
+<form th:action="${'/good/add'}" method="post" th:object="${good}">
+    <input type="text" th:field="*{goodName}" name="goodName" placeholder="Введите название товара">
+    <div style="color: red" th:if="${#fields.hasErrors('goodName')}" th:errors="*{goodName}"></div>
+    <input type="text" th:field="*{goodPrice}" name="goodPrice"  placeholder="Введите цену">
+    <div style="color: red" th:if="${#fields.hasErrors('goodPrice')}" th:errors="*{goodPrice}"></div>
+    <input type="number" th:field="*{goodQuantity}" name="goodQuantity"  placeholder="Введите количество">
+    <div style="color: red" th:if="${#fields.hasErrors('goodQuantity')}" th:errors="*{goodQuantity}"></div>
+    <input type="date" th:field="*{goodSupplyDate}" name="goodSupplyDate"  placeholder="Введите дату поставки">
+    <div style="color: red" th:if="${#fields.hasErrors('goodSupplyDate')}" th:errors="*{goodSupplyDate}"></div>
     <input type="checkbox" name="goodDefect" placeholder="Брак?">
     <br>
     <button type="submit">Добавить товар</button>

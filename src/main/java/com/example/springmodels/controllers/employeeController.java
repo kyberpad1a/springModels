@@ -2,15 +2,15 @@ package com.example.springmodels.controllers;
 
 
 import com.example.springmodels.models.modelEmployee;
+import com.example.springmodels.models.modelGood;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +30,17 @@ public class employeeController {
     }
 
     @GetMapping("/employee/add")
-    public String employeeAddPage(Model model)
+    public String employeeAddPage(@ModelAttribute("employee") modelEmployee modelEmployee)
     {
         return "employee-add";
     }
 
     @PostMapping("/employee/add")
-    public String employeeAdd(@RequestParam String employeeInitials,
-                              @RequestParam double employeeWeight,
-                              @RequestParam int employeeAge,
-                              @RequestParam Date employeeDateOfBirth,
-                              @RequestParam(defaultValue = "false") boolean employeeStatus, Model model)
+    public String employeeAdd(@ModelAttribute("employee") @Valid modelEmployee modelEmployee, BindingResult bindingResult)
     {
-        modelEmployee employee = new modelEmployee(employeeInitials, employeeWeight, employeeAge, employeeDateOfBirth, employeeStatus);
-        employeeRepository.save(employee);
+        if (bindingResult.hasErrors())
+            return "employee-add";
+        employeeRepository.save(modelEmployee);
         return "redirect:/";
     }
 
@@ -78,31 +75,19 @@ public class employeeController {
     @GetMapping("/employee/{ID_Employee}/edit")
     public String employeeEdit(@PathVariable("ID_Employee") long ID_Employee, Model model)
     {
-        if(!employeeRepository.existsById(ID_Employee)){
-            return "redirect:/";
-        }
-        Optional<modelEmployee> post = employeeRepository.findById(ID_Employee);
-        ArrayList<modelEmployee> res = new ArrayList<>();
-        post.ifPresent(res::add);
-        model.addAttribute("employee",res);
+
+        modelEmployee res = employeeRepository.findById(ID_Employee).orElseThrow();
+        model.addAttribute("modelEmployee",res);
         return "employee-edit";
     }
 
     @PostMapping("/employee/{ID_Employee}/edit")
     public String employeeUpdate(@PathVariable("ID_Employee") long ID_Employee,
-                                 @RequestParam String employeeInitials,
-                                 @RequestParam double employeeWeight,
-                                 @RequestParam int employeeAge,
-                                 @RequestParam Date employeeDateOfBirth,
-                                 @RequestParam(defaultValue = "false") boolean employeeStatus, Model model)
+                                 @Valid modelEmployee modelEmployee, BindingResult bindingResult)
     {
-        modelEmployee employee = employeeRepository.findById(ID_Employee).orElseThrow();
-        employee.setEmployeeInitials(employeeInitials);
-        employee.setEmployeeWeight(employeeWeight);
-        employee.setEmployeeAge(employeeAge);
-        employee.setEmployeeDateOfBirth(employeeDateOfBirth);
-        employee.setEmployeeStatus(employeeStatus);
-        employeeRepository.save(employee);
+        if (bindingResult.hasErrors())
+            return "employee-edit";
+        employeeRepository.save(modelEmployee);
         return "redirect:/";
     }
     @PostMapping("employee/{ID_Employee}/remove")
