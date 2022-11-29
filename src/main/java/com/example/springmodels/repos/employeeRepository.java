@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface employeeRepository extends CrudRepository<modelEmployee, Long> {
     List<modelEmployee> findByEmployeeInitialsContains(String employeeInitials);
+    modelEmployee findByEmployeeInitials(String initials);
 }

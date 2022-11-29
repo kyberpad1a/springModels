@@ -16,6 +16,11 @@
     <input type="date" th:field="*{goodSupplyDate}" name="goodSupplyDate"  placeholder="Введите дату поставки">
     <div style="color: red" th:if="${#fields.hasErrors('goodSupplyDate')}" th:errors="*{goodSupplyDate}"></div>
     <input type="checkbox" name="goodDefect" placeholder="Брак?">
+    <select  name="initials">
+        <div th:each="element : ${employee}">
+            <option th:text="${element.employeeInitials}"></option>
+        </div>
+    </select>
     <br>
     <button type="submit">Добавить товар</button>
 </form>

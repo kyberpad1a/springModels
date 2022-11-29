@@ -3,6 +3,9 @@ package com.example.springmodels.controllers;
 
 import com.example.springmodels.models.modelEmployee;
 import com.example.springmodels.models.modelGood;
+import com.example.springmodels.models.modelPasport;
+import com.example.springmodels.models.modelPost;
+import com.example.springmodels.repos.postRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -20,26 +23,39 @@ import java.util.Optional;
 public class employeeController {
     @Autowired
     private com.example.springmodels.repos.employeeRepository employeeRepository;
+    @Autowired
+    private com.example.springmodels.repos.pasportRepository pasportRepository;
+    @Autowired
+    private com.example.springmodels.repos.postRepository postRepository;
 
     @GetMapping("/")
     public String employeeMain(Model model)
     {
         Iterable<modelEmployee> employees = employeeRepository.findAll();
         model.addAttribute("employees", employees);
+        Iterable<modelPost> posts = postRepository.findAll();
+        model.addAttribute("posts", posts);
         return "employee-main";
     }
 
     @GetMapping("/employee/add")
-    public String employeeAddPage(@ModelAttribute("employee") modelEmployee modelEmployee)
+    public String employeeAddPage(@ModelAttribute("employee") modelEmployee modelEmployee, Model modelPasport)
     {
+        Iterable<modelPasport> pasport = pasportRepository.findAll();
+        modelPasport.addAttribute("pasport", pasport);
         return "employee-add";
     }
 
     @PostMapping("/employee/add")
-    public String employeeAdd(@ModelAttribute("employee") @Valid modelEmployee modelEmployee, BindingResult bindingResult)
+    public String employeeAdd(@ModelAttribute("employee") @Valid modelEmployee modelEmployee, BindingResult bindingResult, @RequestParam int pasportNumber, Model modelPasport)
     {
         if (bindingResult.hasErrors())
+        {
+            Iterable<modelPasport> pasport = pasportRepository.findAll();
+            modelPasport.addAttribute("pasport", pasport);
             return "employee-add";
+        }
+        modelEmployee.setEmployeePasport(pasportRepository.findByPasportNumber(pasportNumber));
         employeeRepository.save(modelEmployee);
         return "redirect:/";
     }
@@ -96,4 +112,25 @@ public class employeeController {
         employeeRepository.delete(employee);
         return "redirect:/";
     }
+
+    @GetMapping("/employee/post/add")
+    private String postAddPage(Model model){
+        Iterable<modelEmployee> employee = employeeRepository.findAll();
+        model.addAttribute("employees", employee);
+        Iterable<modelPost> post = postRepository.findAll();
+        model.addAttribute("posts", post);
+        return "employee-post-add";
+    }
+
+    @PostMapping("/employee/post/add")
+    public String postAdd(@RequestParam Long employee, @RequestParam Long post, Model model)
+    {
+        modelEmployee employee1 = employeeRepository.findById(employee).orElseThrow();
+        modelPost post1 = postRepository.findById(post).orElseThrow();
+        employee1.getPosts().add(post1);
+
+        employeeRepository.save(employee1);
+        return "redirect:/employee/add";
+    }
+
 }

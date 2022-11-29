@@ -1,21 +1,13 @@
 package com.example.springmodels.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Date;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class modelEmployee {
-    public modelEmployee(String employeeInitials, double employeeWeight, int employeeAge, Date employeeDateOfBirth, boolean employeeStatus){
-        this.employeeInitials = employeeInitials;
-        this.employeeWeight = employeeWeight;
-        this.employeeAge = employeeAge;
-        this.employeeDateOfBirth = employeeDateOfBirth;
-        this.employeeStatus = employeeStatus;
-    }
 
     public modelEmployee() {
     }
@@ -35,6 +27,28 @@ public class modelEmployee {
     //@Past(message = "Дата рождения должна быть раньше текущей даты")
     private Date employeeDateOfBirth;
     private boolean employeeStatus;
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
+    private Collection<modelGood> responsibleGoods;
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(name="pasport_id")
+    private modelPasport employeePasport;
+    @ManyToMany
+    @JoinTable (name="employee_post",
+            joinColumns=@JoinColumn (name="employee_id"),
+            inverseJoinColumns=@JoinColumn(name="post_id"))
+    private List<modelPost> posts;
+
+
+    public modelEmployee(Long ID_Employee, String employeeInitials, double employeeWeight, int employeeAge, Date employeeDateOfBirth, boolean employeeStatus, Collection<modelGood> responsibleGoods, modelPasport employeePasport) {
+        this.ID_Employee = ID_Employee;
+        this.employeeInitials = employeeInitials;
+        this.employeeWeight = employeeWeight;
+        this.employeeAge = employeeAge;
+        this.employeeDateOfBirth = employeeDateOfBirth;
+        this.employeeStatus = employeeStatus;
+        this.responsibleGoods = responsibleGoods;
+        this.employeePasport = employeePasport;
+    }
 
     public Long getID_Employee() {
         return ID_Employee;
@@ -82,5 +96,29 @@ public class modelEmployee {
 
     public void setEmployeeStatus(boolean employeeStatus) {
         this.employeeStatus = employeeStatus;
+    }
+
+    public Collection<modelGood> getResponsibleGoods() {
+        return responsibleGoods;
+    }
+
+    public void setResponsibleGoods(Collection<modelGood> responsibleGoods) {
+        this.responsibleGoods = responsibleGoods;
+    }
+
+    public modelPasport getEmployeePasport() {
+        return employeePasport;
+    }
+
+    public void setEmployeePasport(modelPasport employeePasport) {
+        this.employeePasport = employeePasport;
+    }
+
+    public List<modelPost> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<modelPost> posts) {
+        this.posts = posts;
     }
 }

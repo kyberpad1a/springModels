@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Должности</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <div th:insert="blocks/header" ></div>
+</head>
+<body >
+<div><h1>Должности</h1></div>
+<div>
+  <form th:action="${'/employee/post/add'}" method="post">
+    <select  name="employee">
+      <div th:each="element : ${employees}">
+        <option th:value="${element.ID_Employee}" th:text="${element.employeeInitials}"></option>
+      </div>
+    </select>
+    <select  name="post">
+      <div th:each="element : ${posts}">
+        <option th:value="${element.ID_Post}" th:text="${element.postName}"></option>
+      </div>
+    </select>
+    <br>
+    <button type="submit">Добавить должность</button>
+  </form>
+</div>
+</body>
+</html>

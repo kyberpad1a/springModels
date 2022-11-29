@@ -1,22 +1,11 @@
 package com.example.springmodels.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Date;
 
 @Entity
 public class modelGood {
-    public modelGood(String goodName, double goodPrice, int goodQuantity, Date goodSupplyDate, boolean goodDefect)
-    {
-        this.goodName = goodName;
-        this.goodPrice = goodPrice;
-        this.goodQuantity = goodQuantity;
-        this.goodSupplyDate = goodSupplyDate;
-        this.goodDefect = goodDefect;
-    }
 
     public modelGood() {
     }
@@ -69,6 +58,14 @@ public class modelGood {
         this.goodDefect = goodDefect;
     }
 
+    public modelEmployee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(modelEmployee employee) {
+        this.employee = employee;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ID_Good;
@@ -86,5 +83,17 @@ public class modelGood {
     //@PastOrPresent(message = "Дата должна быть раньше или равна текущей")
     private Date goodSupplyDate;
     private boolean goodDefect;
+    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    private modelEmployee employee;
 
+    public modelGood(Long ID_Good, String goodName, double goodPrice, int goodQuantity, Date goodSupplyDate, boolean goodDefect, modelEmployee employee) {
+        this.ID_Good = ID_Good;
+        this.goodName = goodName;
+        this.goodPrice = goodPrice;
+        this.goodQuantity = goodQuantity;
+        this.goodSupplyDate = goodSupplyDate;
+        this.goodDefect = goodDefect;
+        this.employee = employee;
+
+    }
 }

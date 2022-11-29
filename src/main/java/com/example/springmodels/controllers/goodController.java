@@ -19,6 +19,8 @@ import java.util.Optional;
 public class goodController {
     @Autowired
     private com.example.springmodels.repos.goodRepository goodRepository;
+    @Autowired
+    private com.example.springmodels.repos.employeeRepository employeeRepository;
 
     @GetMapping("/good")
     public String goodMain(Model model)
@@ -29,17 +31,24 @@ public class goodController {
     }
 
     @GetMapping("/good/add")
-    public String goodAddPage(@ModelAttribute("good") modelGood modelGood)
+    public String goodAddPage(@ModelAttribute("good") modelGood modelGood, Model modelEmployee)
     {
+        Iterable<modelEmployee> employees = employeeRepository.findAll();
+        modelEmployee.addAttribute("employee", employees);
+
         return "good-add";
     }
 
     @PostMapping("/good/add")
-    public String goodAdd(@ModelAttribute("good") @Valid modelGood modelGood, BindingResult bindingResult)
+    public String goodAdd(@ModelAttribute("good") @Valid modelGood modelGood, BindingResult bindingResult, @RequestParam String initials, Model modelEmployee)
     {
 
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
+            Iterable<modelEmployee> employees = employeeRepository.findAll();
+            modelEmployee.addAttribute("employee",employees);
             return "good-add";
+        }
+        modelGood.setEmployee(employeeRepository.findByEmployeeInitials(initials));
         goodRepository.save(modelGood);
         return "redirect:/good";
     }

@@ -31,6 +31,13 @@
 
                         <td>><a>Дата поставки:</a> <a th:text="${el.goodSupplyDate}"></a></td>
                     </tr>
+                    <tr>
+                        <td>>
+                            <form th:each="emp : ${el.getEmployee()}">
+                            <a>Код сотрудника: </a> <a th:text="${emp.getEmployeeInitials()}"></a>
+                            </form>
+                        </td>
+                    </tr>
                 </table>
                 <a th:href="'/good/' + ${el.ID_Good}">Подробнее</a>
             </div>

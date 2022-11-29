@@ -16,7 +16,13 @@
   <input type="date" th:field="*{employeeDateOfBirth}" name="employeeDateOfBirth" placeholder="Введите дату рождения">
   <div style="color: red" th:if="${#fields.hasErrors('employeeDateOfBirth')}" th:errors="*{employeeDateOfBirth}"></div>
   <input type="checkbox" name="employeeStatus" placeholder="Работает?">
+  <select  name="pasportNumber">
+    <div th:each="element : ${pasport}">
+      <option th:text="${element.pasportNumber}"></option>
+    </div>
+  </select>
   <br>
+  <a th:href="'/employee/post/add'">Добавить должность</a>
   <button type="submit">Добавить сотрудника</button>
 </form>
 </body>
